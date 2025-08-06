@@ -1,6 +1,20 @@
-#include "utility.h"
+#include "qtlog.h"
+#include <QApplication>
+#include <QModelIndex>
+#include <QRect>
+#include <QVariant>
+#include <QMetaEnum>
+#include <QJsonDocument>
 
-namespace utility
+#if QT_VERSION_MAJOR >= 6
+#include <QScreen>
+#else //QT_VERSION_MAJOR
+#include <QDesktopWidget>
+#endif // QT_VERSION_MAJOR
+
+#include "tools.h"
+
+namespace tools
 {
 
 bool IsValueNameChar(const char& c)

@@ -1,0 +1,276 @@
+/**************************Example Common*************************************/
+* {
+	font-family: "Microsoft YaHei";
+	font-size: 12pt;
+	color: white;
+	outline: none;
+}
+/**************************Example Common*************************************/
+
+/**************************Example QToolTip*************************************/
+QToolTip {
+	color: black;
+	border: 0.05em solid #1A39B9;
+	border-radius: 0.1em;
+}
+/**************************Example QToolTip*************************************/
+
+/**************************Example Button*************************************/
+QAbstractButton[QSSType="common"] {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-top: 0.08em;
+	padding-bottom: 0.08em;
+	border-radius: 0.1em;
+	background: #1783E0;
+}
+
+QAbstractButton[QSSType="common"]:checked:hover
+, QAbstractButton[QSSType="common"]:hover {
+	background: #1A39B9;
+}
+
+QAbstractButton[QSSType="common"]:pressed
+, QAbstractButton[QSSType="common"]:checked {
+	background: #1820A0;
+}
+
+QAbstractButton[QSSType="common"]:disabled {
+	background: gray;
+}
+
+QAbstractButton[QSSType="common"]:checked {
+	border-width: 0.1em;
+}
+
+QAbstractButton::indicator {
+}
+/**************************Example Button*************************************/
+
+/**************************Example Widget*************************************/
+QWidget[QSSType="rounded"] {
+	border: 0em;
+	border-radius: 0.1em;
+}
+QWidget[Background="gray"] {
+	background-color: gray;
+}
+QWidget[Background="darkGray"] {
+	background-color: darkGray;
+}
+QWidget[Background="transparent"] {
+	background-color: transparent;
+}
+/**************************Example Widget*************************************/
+
+/**************************Example QAbstractItemView*************************************/
+QAbstractItemView {
+	background: transparent;
+	selection-background-color: #1263A9;
+	alternate-background-color: #1053A0;
+	qproperty-frameShape: NoFrame;
+}
+
+QAbstractItemView::item {
+	height: 3em;
+}
+
+QAbstractItemView::item:selected:!active {
+	background: #8EA3E0;
+}
+
+QAbstractItemView::indicator {
+	image: url(:/resource/image/checkbox-unselected-normal.png);
+}
+
+QAbstractItemView::indicator::checked {
+	image: url(:/resource/image/checkbox-selected-normal.png);
+}
+
+QHeaderView,
+QHeaderView::section {
+	background: #1053B0;
+	border-radius: 0.3em;
+	min-height: 1.4em;
+}
+
+QTableView  {
+	qproperty-showGrid: false;
+}
+
+QListView::item {
+}
+/**************************Example QAbstractItemView*************************************/
+
+/**************************Example Input*************************************/
+QLineEdit, QComboBox, QAbstractSpinBox {
+	border: 0.05em solid #4773D8;
+	border-radius: 0.1em;
+	background: #0E2461;
+	qproperty-contextMenuPolicy: NoContextMenu;
+	padding-left: 0.1em;
+	padding-right: 0.5em;
+}
+
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 1em;
+	border: 0 solid #4773D8;
+	border-left-width:0.05em;
+}
+
+QComboBox::down-arrow {
+	subcontrol-origin: padding;
+	subcontrol-position: center center;
+	image: url(:/resource/image/down.png);
+}
+
+QComboBox::down-arrow:on {
+	image: url(:/resource/image/up.png);
+}
+
+QComboBox QAbstractItemView {
+	border: 0.05em solid #4773D8;
+	selection-background-color: #1263A9;
+	alternate-background-color: #1053A0;
+	qproperty-frameShape: NoFrame;
+}
+
+QAbstractSpinBox::up-button,
+QAbstractSpinBox::down-button {
+	subcontrol-position: top right;
+	width: 1em;
+	border: 0 solid #4773D8;
+	border-left-width:0.05em;
+}
+
+QAbstractSpinBox::up-button {
+	subcontrol-position: top right;
+}
+
+QAbstractSpinBox::down-button {
+	subcontrol-position: bottom right;
+}
+
+QAbstractSpinBox::up-arrow {
+	image: url(:/resource/image/up.png);
+	subcontrol-origin: padding;
+	subcontrol-position: center center;
+}
+
+QAbstractSpinBox::down-arrow {
+	image: url(:/resource/image/down.png);
+	subcontrol-origin: padding;
+	subcontrol-position: center center;
+}
+/**************************Example Input*************************************/
+
+/**************************Example ScrollBar*************************************/
+QScrollBar {
+	background-color: rgba(59,103,168,50);
+	border: none;
+	border-radius: 0.2em;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+	background-color: transparent;
+}
+
+QScrollBar::add-line, QScrollBar::sub-line {
+	background-color: rgba(59,103,168,150);
+	subcontrol-origin: margin;
+	border: none;
+	border-radius: 0.2em;
+}
+
+QScrollBar::handle {
+	background-color: rgba(59,103,168,200);
+	border-radius: 0.15em;
+}
+
+QScrollBar::handle:hover {
+	background-color: rgba(59,104,168,250);
+}
+
+/*****************QScrollBar:horizontal*********************/
+QScrollBar:horizontal {
+	max-height: 0.4em;
+	min-height: 0.4em;
+}
+
+QScrollBar::handle:horizontal {
+	margin: 0.05em 0 0.05em 0;
+	min-height: 0.3em;
+	max-height: 0.3em;
+	min-width: 1em;
+}
+
+QScrollBar::sub-line:horizontal {
+	subcontrol-position: left;
+	width: 0;
+}
+
+QScrollBar::add-line:horizontal {
+	subcontrol-position: right;
+	width: 0;
+}
+
+/*****************QScrollBar:vertical*********************/
+QScrollBar:vertical {
+	max-width: 0.4em;
+	min-width: 0.4em;
+}
+
+QScrollBar::handle:vertical {
+	margin: 0 0.05em 0 0.05em;
+	min-width: 0.3em;
+	max-width: 0.3em;
+	min-height: 1em;
+}
+
+QScrollBar::sub-line:vertical {
+	subcontrol-position: top;
+	height: 0;
+}
+
+QScrollBar::add-line:vertical {
+	subcontrol-position: bottom;
+	height: 0;
+}
+/**************************Example ScrollBar*************************************/
+
+QWidget#clientArea {
+	border-image: url(:/resource/image/background-clientarea.png);
+	font: 20pt;
+}
+
+QWidget#AppWidget {
+	border-image: url(:/resource/image/background-workarea.png);
+}
+
+QListView::item,
+QWidget#navigation QAbstractItemView::item {
+	border: 0em;
+/*	min-height: 2.5em;*/
+	border-radius: 0.4em;
+}
+
+QListView::item:hover,
+QWidget#navigation QAbstractItemView::item:hover {
+	background: #3b62b6;
+}
+
+QListView::item:selected,
+QWidget#navigation QAbstractItemView::item:selected {
+	background: #1E4EB7;
+}
+
+ExperimentDataManagerWidget > .QWidget,
+ExperimentDataViewWidget > .QWidget,
+AppraiseResultManagerWidget > .QWidget,
+AppraiseSchemeWidget > .QWidget,
+QWidget#navigation {
+	border-image: url(:/resource/image/background-navigation.png);
+	border: 0.4em;
+}

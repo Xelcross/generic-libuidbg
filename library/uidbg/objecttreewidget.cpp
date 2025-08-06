@@ -1,5 +1,17 @@
-#include "spotwidget.h"
+#include <QHeaderView>
+#include <QLineEdit>
+#include <QMetaProperty>
+#include <QPointer>
+#include <QSplitter>
+#include <QStandardItemModel>
+#include <QTreeView>
+#include <QVBoxLayout>
+#include "factory.h"
 #include "propparser.h"
+#include "qtlog.h"
+#include "spotwidget.h"
+#include "tools.h"
+
 #include "objecttreewidget.h"
 
 struct ObjectTreeWidget::Data
@@ -31,6 +43,7 @@ struct ObjectTreeWidget::Data
     {
         if (q != nullptr) return;
         q = ot;
+		q->setStyleSheet("*{font-family: \"Microsoft YaHei\";font-size: 12pt; background-color: lightGray; color: black; outline: none;}");
         q->resize(600, 800);
         auto vlayout = new QVBoxLayout(q);
         {
@@ -44,16 +57,20 @@ struct ObjectTreeWidget::Data
 //            propTree->setEditTriggers(QAbstractItemView::AllEditTriggers);
             propTree->setModel(propModel = new QStandardItemModel(q));
             propTree->setItemDelegateForColumn(1,
-               Factory<QAbstractItemDelegate>::produce<QObject*>("PropertyItemDelegate", propTree));
+               Factory<QAbstractItemDelegate>::produce("PropertyItemDelegate", static_cast<QObject*>(propTree)));
 
             vlayout->addWidget(splitter);
         }
         vlayout->addWidget(lineEdit = new QLineEdit(q));
         lineEdit->setObjectName("CommandLineEdit");
-        lineEdit->hide();
+//        lineEdit->hide();
         connect(lineEdit, &QLineEdit::returnPressed, [&](){
-            const auto info = lineEdit->text().trimmed();
-
+			bool ok = false;
+            const auto obj = reinterpret_cast<QObject*>(lineEdit->text().trimmed().toLongLong(&ok, 16));
+			if (ok && obj != nullptr) {
+				setCapturedObject(obj);
+			}
+/*
             auto fIndex = info.indexOf('.');
             auto objInfo = info.mid(0, fIndex);
             auto propInfo = info.mid(objInfo.size() + 1, info.size() - objInfo.size() - 1);
@@ -89,6 +106,7 @@ struct ObjectTreeWidget::Data
                 obj->setProperty(propKey.toStdString().data(), QVariant::fromValue(propValue));
             }
             qLogInfo << objName << objClass << propKey << propValue;
+*/
         });
     }
 
@@ -104,9 +122,11 @@ struct ObjectTreeWidget::Data
     {
         propTree->expandAll();
         objTree->setHorizontalScrollMode(QAbstractItemView::ScrollMode::ScrollPerPixel);
+        objTree->setHorizontalScrollMode(QAbstractItemView::ScrollMode::ScrollPerPixel);
         propTree->setVerticalScrollMode(QAbstractItemView::ScrollMode::ScrollPerPixel);
-//        objTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
- //       propTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        propTree->setVerticalScrollMode(QAbstractItemView::ScrollMode::ScrollPerPixel);
+        objTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        propTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     }
 
     void setSpotObj(QObject* obj)
@@ -160,7 +180,7 @@ struct ObjectTreeWidget::Data
 
     void loadIndexChildren(const QModelIndex& index)
     {
-        auto findex = utility::SiblingAtColumn(index, 0);
+        auto findex = tools::SiblingAtColumn(index, 0);
         QObject* obj = capturedObj.isNull() ? nullptr : findex.data(Qt::UserRole + 1).value<QObject*>();
         if (obj != nullptr) {
             loadChildren(objModel->itemFromIndex(findex));
@@ -245,7 +265,7 @@ struct ObjectTreeWidget::Data
         property_item->setEditable(false);
         for (auto i = mo->propertyOffset(); i < mo->propertyCount(); ++i) {
             const auto prop = mo->property(i);
-            const auto value = utility::CheckOutValue(prop, obj);
+            const auto value = tools::CheckOutValue(prop, obj);
             auto items = createPropItem(prop.name(), value);
             property_item->appendRow(items);
         }

@@ -1,3 +1,12 @@
+#include <QApplication>
+#include <QKeyEvent>
+#include <QWidget>
+#include <QStyle>
+#include <QPushButton>
+#include "factory.h"
+#include "tools.h"
+#include "qtlog.h"
+
 #include "dbggenericplugin.h"
 
 struct DbgGenericPlugin::Data
@@ -25,6 +34,7 @@ struct DbgGenericPlugin::Data
         if (w != nullptr) return false;
         w = Factory<QWidget>::produce<QWidget*>(wName, nullptr);
         w->setWindowFlag(Qt::Window);
+        w->setWindowFlag(Qt::WindowStaysOnTopHint);
         w->setAttribute(Qt::WA_DeleteOnClose);
         return true;
     }
@@ -35,7 +45,7 @@ struct DbgGenericPlugin::Data
             const auto btn = console->findChild<QPushButton*>("ObjTree");
             if (btn != nullptr) {
                 q->connect(btn, &QPushButton::clicked, q, &DbgGenericPlugin::showObjectTree);
-                auto geometry = utility::GetPrimaryScreenAvailableGeometry();
+                auto geometry = tools::GetPrimaryScreenAvailableGeometry();
                 geometry.setLeft(geometry.width() * 2 / 3);
                 geometry.setTop(geometry.height() * 2 / 3);
                 console->setGeometry(geometry);
@@ -48,7 +58,7 @@ struct DbgGenericPlugin::Data
     void showObjTree()
     {
         if (createWidget("ObjectTreeWidget", objtree)) {
-            auto geometry = utility::GetPrimaryScreenAvailableGeometry();
+            auto geometry = tools::GetPrimaryScreenAvailableGeometry();
             geometry.setLeft(geometry.width() * 2 / 3);
             geometry.setTop(qApp->style()->pixelMetric(QStyle::PM_TitleBarHeight));
             geometry.setHeight(geometry.height() * 2 / 3 - geometry.top());

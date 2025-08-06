@@ -1,10 +1,19 @@
+#include <QSizePolicy>
+#include <QStandardItem>
+#include <QMetaProperty>
+#include <QCursor>
+#include <QPalette>
+#include <QLocale>
+#include "factory.h"
+#include "qtlog.h"
+#include "tools.h"
 #include "propparser.h"
 
 QList<QStandardItem*> generateItems(const QVariant& name, const QVariant& prop)
 {
     auto first = new QStandardItem;
     first->setData(name, Qt::EditRole);
- //   first->setEditable(false);
+    first->setEditable(false);
     auto second = new QStandardItem;
     second->setData(prop, Qt::EditRole);
 //    second->setEditable(false);
@@ -46,7 +55,7 @@ struct PropParser_QEnum : PropParserX<int> {
     {
         do {
             bool flags(false);
-            const auto em = utility::CheckOutMetaEnum(prop, flags);
+            const auto em = tools::CheckOutMetaEnum(prop, flags);
             if (!em.isValid() || !flags) break;
 
             for (auto i = 0; i < em.keyCount(); ++i) {
@@ -122,7 +131,7 @@ END_DEFINE_PROPARSER(QPalette)
 BEGIN_DEFINE_PROPPARSER(QFont)
 void generateChildren(QList<QVariantList>& values, const PropType& value, const QVariant& prop) override
 {
-    values.push_back({ "families", utility::Families(value) });
+    values.push_back({ "families", tools::Families(value) });
     values.push_back({ "styleName", value.styleName() });
     values.push_back({ "pointSize", value.pointSize() });
     values.push_back({ "pointSizeF", value.pointSizeF() });
@@ -169,7 +178,7 @@ void generateChildren(QList<QVariantList>& values, const PropType& value, const 
 {
     values.push_back({ "Language", QVariant::fromValue(value.language()) });
     values.push_back({ "Script", QVariant::fromValue(value.script()) });
-    values.push_back({ "Country", QVariant::fromValue(utility::Country(value)) });
+    values.push_back({ "Country", QVariant::fromValue(tools::Country(value)) });
 }
 END_DEFINE_PROPARSER(QLocale)
 

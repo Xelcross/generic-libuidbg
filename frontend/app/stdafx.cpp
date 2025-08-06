@@ -1,0 +1,1 @@
+Q_DECLARE_METATYPE(ItemRoleMap);

@@ -1,6 +1,9 @@
 #ifndef PROPERTYITEMDELEGATE_H
 #define PROPERTYITEMDELEGATE_H
 
+#include <QStyledItemDelegate>
+
+
 class PropertyItemDelegate : public QStyledItemDelegate
 {
     typedef QStyledItemDelegate Base;

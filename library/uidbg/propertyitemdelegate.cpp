@@ -1,3 +1,10 @@
+#include "factory.h"
+#include "qtlog.h"
+#include "tools.h"
+#include <QApplication>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QItemEditorCreatorBase>
 #include "propertyitemdelegate.h"
 
 PropertyItemDelegate::PropertyItemDelegate(QObject *parent)
@@ -34,13 +41,13 @@ QWidget *PropertyItemDelegate::createEditor(QWidget *parent, const QStyleOptionV
     do {
         const auto prop = index.data(Qt::EditRole);
         bool flags(false);
-        const auto em = utility::CheckOutMetaEnum(prop, flags);
+        const auto em = tools::CheckOutMetaEnum(prop, flags);
         if (!em.isValid() || em.isFlag() || flags) break;
 
         auto comboBox = new QComboBox(parent);
         for (auto i = 0; i < em.keyCount(); ++i) {
             auto v = QVariant::fromValue(em.value(i));
-            utility::Convert(v, prop.userType());
+            tools::Convert(v, prop.userType());
             comboBox->addItem(em.key(i), v);
         }
         widget = comboBox;
@@ -53,7 +60,7 @@ QWidget *PropertyItemDelegate::createEditor(QWidget *parent, const QStyleOptionV
 
 void PropertyItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    if (utility::IsType<QComboBox>(editor)) {
+    if (tools::IsType<QComboBox>(editor)) {
         editor->setProperty("currentText", index.data(Qt::EditRole));
     } else {
         Base::setEditorData(editor, index);
@@ -62,7 +69,7 @@ void PropertyItemDelegate::setEditorData(QWidget *editor, const QModelIndex &ind
 
 void PropertyItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if (utility::IsType<QComboBox>(editor)) {
+    if (tools::IsType<QComboBox>(editor)) {
         auto v = editor->property("currentData");
         model->setData(index, v);
     } else {

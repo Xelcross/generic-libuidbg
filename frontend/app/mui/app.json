@@ -1,0 +1,7 @@
+{
+  "AppWindow": {
+    "name": "AppWidget"
+  },
+  "LogLocalFile": false,
+  "MaxLogfileSize": 100
+}

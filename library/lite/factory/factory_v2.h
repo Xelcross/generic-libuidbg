@@ -47,6 +47,7 @@ private:
     }
 };
 
+//template <class Product, class Series, class SeriesID, class = typename std::enable_if<std::is_base_of<Product, Series>::value>::type, class ...Args>
 template <class Product, class Series, class SeriesID, class ...Args>
 class ProductionLine : public Factory<Product, SeriesID>::template ProductionLine<Args...>
 {

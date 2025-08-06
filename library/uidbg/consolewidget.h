@@ -1,6 +1,9 @@
 #ifndef CONSOLEWIDGET_H
 #define CONSOLEWIDGET_H
 
+#include "pridata.h"
+#include <QWidget>
+
 class ConsoleWidget : public QWidget
 {
     Q_OBJECT

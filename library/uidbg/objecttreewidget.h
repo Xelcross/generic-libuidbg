@@ -1,6 +1,9 @@
 #ifndef OBJECTTREEWIDGET_H
 #define OBJECTTREEWIDGET_H
 
+#include "pridata.h"
+#include <QWidget>
+
 class ObjectTreeWidget : public QWidget
 {
     Q_OBJECT

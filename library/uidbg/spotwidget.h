@@ -1,6 +1,9 @@
 #ifndef SPOTWIDGET_H
 #define SPOTWIDGET_H
 
+#include "pridata.h"
+#include <QWidget>
+
 class SpotWidget : public QWidget
 {
     PriData

@@ -1,13 +1,14 @@
 #ifndef DBGGENERICPLUGIN_H
 #define DBGGENERICPLUGIN_H
 
+#include "pridata.h"
 #include <QGenericPlugin>
 
 class DbgGenericPlugin : public QGenericPlugin
 {
-    PriData
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QGenericPluginFactoryInterface_iid FILE "uidbg.json")
+    PriData
 
 public:
     explicit DbgGenericPlugin(QObject *parent = nullptr);

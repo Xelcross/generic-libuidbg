@@ -1,3 +1,12 @@
+#include <QCheckBox>
+#include <QPushButton>
+#include <QTextBrowser>
+#include <QVBoxLayout>
+#include <QDateTime>
+#include <QThread>
+#include <QFileInfo>
+#include "factory.h"
+
 #include "consolewidget.h"
 
 namespace dbg {
@@ -17,13 +26,34 @@ struct { QtMsgType type; const char* name; } MsgTypeNames[] = {
     { QtInfoMsg, "Info" },
 };
 
-void messageHandler(QtMsgType type, const QMessageLogContext & context, const QString & text)
+QString GetQMessageLogContext(const QMessageLogContext & context)
+{
+	QString r;
+	if (context.file != nullptr && strlen(context.file) > 0) {
+		r.push_back(QFileInfo(context.file).fileName());
+		r.push_back(':');
+	}
+	if (context.line > 0) {
+		r.push_back(QString::number(context.line));
+		r.push_back(':');
+	}
+	if (context.function != nullptr && strlen(context.function) > 0) {
+		r.push_back(context.function);
+		r.push_back(':');
+	}
+	return r;
+}
+
+void MessageHandler(QtMsgType type, const QMessageLogContext & context, const QString & msg)
 {
     if (Self == nullptr) return;
-    auto log = QString("[%1][%2]: %3")
-        .arg(QDateTime::currentDateTime().toString("yy-mm-dd hh:mm:ss"))
-        .arg(MsgTypeNames[type].name)
-        .arg(text);
+	static const char* types[] = { "D", "W", "C", "F", "I", "S" };
+	const auto log = QString("%1[%2][%3] %4%5\n")
+			.arg(QDateTime::currentDateTime().toString("yy/MM/dd hh:mm:ss:zzz"))
+			.arg("0x" + QString::number(reinterpret_cast<qlonglong>(QThread::currentThreadId()), 16))
+			.arg(types[type])
+			.arg(GetQMessageLogContext(context))
+			.arg(msg);
     QMetaObject::invokeMethod(Self, "writeLog", Qt::QueuedConnection, Q_ARG(int, type), Q_ARG(const QString&, log));
 }
 
@@ -42,7 +72,7 @@ struct ConsoleWidget::Data
     {
         memset(buttons, 0, sizeof(buttons));
         memset(checkers, 0, sizeof(checkers));
-        oldmsgHanlder = qInstallMessageHandler(messageHandler);
+        oldmsgHanlder = qInstallMessageHandler(MessageHandler);
     }
 
     ~Data()
@@ -54,6 +84,7 @@ struct ConsoleWidget::Data
     {
         if (q != nullptr) return;
         q = ot;
+		q->setStyleSheet("*{font-family: \"Microsoft YaHei\";font-size: 12pt; background-color: lightGray; color: black; outline: none;}");
         q->resize(600, 600);
         auto layout = new QVBoxLayout(q);
         {

@@ -1,2 +1,8 @@
 ADD_SUBDIRECTORY(lite)
-ADD_SUBDIRECTORY(uidbg)
+
+OPTION(UIDBG "Enable or Disable uidbg" ON)
+if (UIDBG)
+    ADD_SUBDIRECTORY(uidbg)
+ENDIF()
+
+ADD_SUBDIRECTORY(xutility)

@@ -1,3 +1,5 @@
+#include <QPainter>
+#include <QTimer>
 #include "spotwidget.h"
 
 struct SpotWidget::Data

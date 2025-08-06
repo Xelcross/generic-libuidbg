@@ -1,8 +1,14 @@
-#ifndef UTILITY_H
+﻿#ifndef UTILITY_H
 #define UTILITY_H
 
+#include <QFont>
+#include <QLocale>
+
+#include <QObject>
 #if QT_VERSION_MAJOR >= 6
 #else //QT_VERSION_MAJOR
+#include <memory>
+#include <QMargins>
 Q_DECLARE_METATYPE(QMargins);
 Q_DECLARE_METATYPE(QFont::Style);
 Q_DECLARE_METATYPE(QFont::StyleHint);
@@ -14,7 +20,7 @@ Q_DECLARE_METATYPE(Qt::FocusPolicy);
 
 #endif //QT_VERSION_MAJOR
 
-namespace utility{
+namespace tools {
 
 template<class ObjectType>
 bool IsType(QObject* o)

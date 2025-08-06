@@ -1,6 +1,11 @@
 #ifndef PROPPARSER_H
 #define PROPPARSER_H
 
+#include <QList>
+
+class QStandardItem;
+class QVariant;
+
 struct PropParser {
     virtual void parse(const QVariant& prop, QList<QStandardItem*>& items) = 0;
     virtual std::string typeName() const = 0;
